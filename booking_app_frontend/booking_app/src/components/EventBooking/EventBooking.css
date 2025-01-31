@@ -1,0 +1,31 @@
+.event-booking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0 2rem 0;
+}
+
+.event-booking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 80%;
+}
+
+.common-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 2rem;
+  width: 100%;
+}
+
+.common-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 1rem;
+}

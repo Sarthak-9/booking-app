@@ -1,0 +1,19 @@
+.slot-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.common-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 2rem;
+}
+
+.common-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 1rem;
+}
