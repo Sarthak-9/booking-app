@@ -18,6 +18,17 @@ const {
 assert(PORT, "Port is required");
 assert(HOST, "Host is required");
 
+const EVENT_CONFIG = {
+  startHour: "10:00:00.000",
+  endHour: "17:00:00.000",
+  duration: 30,
+  timezone: "America/Los_Angeles",
+};
+
+const COLLECTIONS = {
+  events: "events",
+};
+
 export default {
   port: PORT,
   host: HOST,
@@ -30,4 +41,6 @@ export default {
     messagingSenderId: MESSAGING_SENDER_ID,
     appId: APP_ID,
   },
+  eventConfig: EVENT_CONFIG,
+  collections: COLLECTIONS,
 };
