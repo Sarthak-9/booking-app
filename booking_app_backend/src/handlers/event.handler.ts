@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request } from "express";
 import {
   checkIfSlotAvailable,
   createEvent,
@@ -11,45 +11,47 @@ import {
 import { BadRequestError, ExistingEventError } from "../helpers/routeExecutor";
 
 export const getEvents = async (req: Request) => {
-  const { startDate, endDate, timeZone } = req.query;
+  const { startDate, endDate, timezone } = req.query;
   if (!startDate) {
     throw new BadRequestError("Start Date is required");
   }
   const { eventDocs } = await getEventsFromDateRange(
     startDate as string,
     endDate as string,
-    timeZone as string
+    timezone as string
   );
   const events = transformEventDoc(eventDocs);
   const transformedEvents = transformEventsToTimezone(
     events,
-    timeZone as string
+    timezone as string
   );
   return transformedEvents;
 };
 
 export const getFreeEvents = async (req: Request) => {
-  const { startDate, endDate, timeZone } = req.query;
+  const { startDate, endDate, timezone } = req.query;
   if (!startDate) {
     throw new BadRequestError("Start Date is required");
   }
-  const { preparedStartDate, eventDocs } = await getEventsFromDateRange(
-    startDate as string,
-    endDate as string,
-    timeZone as string
-  );
-  const slots = generateSlots(preparedStartDate);
+  const { preparedStartDate, preparedEndDate, eventDocs } =
+    await getEventsFromDateRange(
+      startDate as string,
+      endDate as string,
+      timezone as string
+    );
+  const slots = generateSlots(preparedStartDate, preparedEndDate);
   const events = transformEventDoc(eventDocs);
   const freeSlots = filterFreeSlots(slots, events);
   const transformedEvents = transformEventsToTimezone(
     freeSlots,
-    timeZone as string
+    timezone as string
   );
+
   return transformedEvents;
 };
 
 export const bookEvent = async (req: Request) => {
-  const { startDate, endDate, timeZone, eventData } = req.body;
+  const { startDate, endDate, timezone, eventData } = req.body;
   if (!startDate) {
     throw new BadRequestError("Start Date is required");
   }
@@ -60,7 +62,7 @@ export const bookEvent = async (req: Request) => {
     await getEventsFromDateRange(
       startDate as string,
       endDate as string,
-      timeZone as string
+      timezone as string
     );
   const events = transformEventDoc(eventDocs);
   const isSlotAvailable = checkIfSlotAvailable(

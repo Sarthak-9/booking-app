@@ -22,7 +22,7 @@ const EVENT_CONFIG = {
   startHour: "10:00:00.000",
   endHour: "17:00:00.000",
   duration: 30,
-  timezone: "America/Los_Angeles",
+  timezone: "UTC",
 };
 
 const COLLECTIONS = {
