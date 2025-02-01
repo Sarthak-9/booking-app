@@ -52,7 +52,13 @@ const EventBooking = () => {
           </div>
           <div className="common-column">
             <h2>Event Form</h2>
-            {selectedSlot && <EventForm />}
+            {selectedSlot && (
+              <EventForm
+                startDate={selectedSlot.startDate}
+                endDate={selectedSlot.endDate}
+                timezone={timezone}
+              />
+            )}
           </div>
         </div>
       </div>

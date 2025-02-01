@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import "./EventForm.css";
-export const EventForm = () => {
+import { bookSlot } from "./eventForm.utils";
+
+interface EventFormProps {
+  startDate: Date;
+  endDate: Date;
+  timezone: string;
+}
+
+export const EventForm = (props: EventFormProps) => {
+  const { startDate, endDate, timezone } = props;
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
@@ -13,8 +22,14 @@ export const EventForm = () => {
     }
     return true;
   };
-  const onClick = () => {
+  const onClick = async () => {
     if (validateForm()) {
+      await bookSlot(startDate, endDate, timezone, {
+        name,
+        email,
+        mobile,
+        notes,
+      });
       alert("Form submitted successfully");
     }
   };

@@ -1,5 +1,7 @@
 import axios from "axios";
 import { Slot, SlotDoc } from "../../types";
+import { parseLocalDate } from "../../helpers/date.utils";
+import { CONFIGS } from "../../configs/configs";
 const SLOTS = [
   {
     startDate: new Date("2025-01-14T10:00:00"),
@@ -14,12 +16,7 @@ const SLOTS = [
     endDate: new Date("2025-01-14T16:30:00"),
   },
 ];
-const parseLocalDate = (dateString: string): Date => {
-  if (dateString.endsWith("Z")) {
-    dateString = dateString.slice(0, -1);
-  }
-  return new Date(dateString);
-};
+
 const transformSlots = (slots: SlotDoc[]): Slot[] => {
   return slots.map((slot) => ({
     startDate: parseLocalDate(slot.startDate),
@@ -46,7 +43,7 @@ export const fetchSlots = async (
 ) => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/event/free-events?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`
+      `${CONFIGS.API_URL}/event/free-events?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`
     );
     return response.data;
   } catch (error) {
