@@ -8,12 +8,27 @@ interface DatePickerProps {
 
 const DatePicker = (props: DatePickerProps) => {
   const { date, setDate } = props;
-  const dateToday = new Date();
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DateCalendar
         value={date}
-        onChange={(date) => setDate(date)}
+        onChange={(date) => {
+          const dateToday = new Date().toDateString();
+          if (date.toDateString() === dateToday) {
+            setDate(date);
+          } else {
+            const newDate = new Date(
+              date.getFullYear(),
+              date.getMonth(),
+              date.getDate(),
+              0,
+              0,
+              0,
+              0
+            );
+            setDate(newDate);
+          }
+        }}
         // minDate={dateToday}
       />
     </LocalizationProvider>

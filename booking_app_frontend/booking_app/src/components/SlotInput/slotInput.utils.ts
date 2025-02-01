@@ -14,29 +14,57 @@ const SLOTS = [
     endDate: new Date("2025-01-14T16:30:00"),
   },
 ];
+const parseLocalDate = (dateString: string): Date => {
+  if (dateString.endsWith("Z")) {
+    dateString = dateString.slice(0, -1);
+  }
+  return new Date(dateString);
+};
 const transformSlots = (slots: SlotDoc[]): Slot[] => {
   return slots.map((slot) => ({
-    startDate: new Date(slot.startDate),
-    endDate: new Date(slot.endDate),
+    startDate: parseLocalDate(slot.startDate),
+    endDate: parseLocalDate(slot.endDate),
   }));
 };
 
+const formatDateToLocalISOString = (date: Date): string => {
+  const pad = (num: number) => (num < 10 ? "0" : "") + num;
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+};
+
 export const fetchSlots = async (
-  startDate: Date,
-  duration: number,
+  startDate: string,
+  endDate: string,
   timezone: string
 ) => {
-  const endDate = new Date(startDate);
-  endDate.setMinutes(endDate.getMinutes() + duration);
   try {
     const response = await axios.get(
-      `http://localhost:5000/event/free-events?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&timezone=${timezone}`
+      `http://localhost:5000/event/free-events?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`
     );
-    const slots = response.data;
-    const transformedSlots = transformSlots(slots);
-    return transformedSlots;
+    return response.data;
   } catch (error) {
     console.error(error);
     return SLOTS;
   }
+};
+
+export const getSlots = async (
+  startDate: Date,
+  duration: number,
+  timezone: string
+) => {
+  const prepStartDate = formatDateToLocalISOString(startDate);
+  const endDate = new Date(startDate);
+  endDate.setHours(23, 59, 59, 999);
+  const preparedEndDate = formatDateToLocalISOString(endDate);
+  const slots = await fetchSlots(prepStartDate, preparedEndDate, timezone);
+  const transformedSlots = transformSlots(slots);
+  return transformedSlots;
 };

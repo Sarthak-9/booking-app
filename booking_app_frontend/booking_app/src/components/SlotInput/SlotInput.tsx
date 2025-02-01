@@ -1,7 +1,7 @@
 import { TextField, MenuItem, Button } from "@mui/material";
 import "./Slots.css";
 import { Slot } from "../../types";
-import { fetchSlots } from "./slotInput.utils";
+import { getSlots } from "./slotInput.utils";
 
 const TIMEZONES = [
   "America/Los_Angeles",
@@ -26,7 +26,7 @@ const SlotInput = (props: SlotInputProps) => {
   const { startDate, duration, setDuration, timezone, setTimezone } = props;
 
   const onClick = async () => {
-    const slots: Slot[] = await fetchSlots(startDate, duration, timezone);
+    const slots: Slot[] = await getSlots(startDate, duration, timezone);
     props.setSlots(slots);
   };
 
