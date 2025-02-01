@@ -1,14 +1,16 @@
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Button, CircularProgress, MenuItem, TextField } from "@mui/material";
 import { TIMEZONES } from "../../configs/configs";
+import { ActionButton } from "../ActionButton/ActionButton";
 
 interface UserEventsSetTimezoneProps {
   timezone: string;
   setTimezone: (timezone: string) => void;
   onClick: () => void;
+  isLoading: boolean;
 }
 
 const UserEventsSetTimezone = (props: UserEventsSetTimezoneProps) => {
-  const { timezone, setTimezone, onClick } = props;
+  const { timezone, setTimezone, onClick, isLoading } = props;
   return (
     <div className="user-event-form-actions">
       <TextField
@@ -24,11 +26,11 @@ const UserEventsSetTimezone = (props: UserEventsSetTimezoneProps) => {
           </MenuItem>
         ))}
       </TextField>
-      <div className="button-container">
-        <Button className="button" variant="contained" onClick={onClick}>
-          Get Events
-        </Button>
-      </div>
+      <ActionButton
+        onClick={onClick}
+        isLoading={isLoading}
+        title="Get Events"
+      />
     </div>
   );
 };

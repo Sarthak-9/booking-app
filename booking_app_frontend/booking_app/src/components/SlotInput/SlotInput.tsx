@@ -4,6 +4,7 @@ import { Slot } from "../../types/slot.types";
 import { getSlots } from "./slotInput.utils";
 import { TIMEZONES } from "../../configs/configs";
 import { useState } from "react";
+import { ActionButton } from "../ActionButton/ActionButton";
 
 interface SlotInputProps {
   startDate: Date;
@@ -46,23 +47,11 @@ const SlotInput = (props: SlotInputProps) => {
           </MenuItem>
         ))}
       </TextField>
-      <div className="button-container">
-        {isLoading && (
-          <div className="loader">
-            <CircularProgress></CircularProgress>
-          </div>
-        )}
-        {!isLoading && (
-          <Button
-            className="button"
-            variant="contained"
-            color="primary"
-            onClick={onClick}
-          >
-            Find Slots
-          </Button>
-        )}
-      </div>
+      <ActionButton
+        onClick={onClick}
+        isLoading={isLoading}
+        title="Find Slots"
+      />
     </div>
   );
 };

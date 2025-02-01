@@ -3,18 +3,28 @@ import DatePicker from "../DatePicker/DatePicker";
 import { Event } from "../../types/event.types";
 import "./UserEvents.css";
 import { getEvents } from "./userEvents.utils";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import UserEventItems from "./UserEventItems";
 import UserEventsSetTimezone from "./UserEventsSetTimezone";
+import { ActionButton } from "../ActionButton/ActionButton";
 
 export const UserEvents = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [timezone, setTimezone] = useState<string>("America/Los_Angeles");
   const [events, setEvents] = useState<Event[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRouting, setIsRouting] = useState(false);
   const onClick = async () => {
+    setIsLoading(true);
     const events = await getEvents(startDate, endDate, timezone);
     setEvents(events);
+    setIsLoading(false);
+  };
+  const handlePageChange = () => {
+    setIsRouting(true);
+    window.location.href = "/book-event";
+    setIsRouting(false);
   };
   return (
     <div className="user-events-container">
@@ -35,20 +45,17 @@ export const UserEvents = () => {
               timezone={timezone}
               setTimezone={setTimezone}
               onClick={onClick}
+              isLoading={isLoading}
             />
           </div>
         </div>
       </div>
       <UserEventItems events={events} />
-      <Button
-        variant="contained"
-        className="button"
-        onClick={() => {
-          window.location.href = "/book-event";
-        }}
-      >
-        Book Event
-      </Button>
+      <ActionButton
+        onClick={onClick}
+        isLoading={isRouting}
+        title="Event Booking"
+      />
     </div>
   );
 };

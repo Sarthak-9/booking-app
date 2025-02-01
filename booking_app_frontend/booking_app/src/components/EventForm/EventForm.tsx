@@ -2,6 +2,7 @@ import { useState } from "react";
 import { TextField, Button, CircularProgress } from "@mui/material";
 import "./EventForm.css";
 import { bookSlot } from "./eventForm.utils";
+import { ActionButton } from "../ActionButton/ActionButton";
 
 interface EventFormProps {
   startDate: Date;
@@ -66,23 +67,11 @@ export const EventForm = (props: EventFormProps) => {
           onChange={(e) => setNotes(e.target.value)}
           fullWidth
         />
-        <div className="button-container">
-          {isLoading && (
-            <div className="loader">
-              <CircularProgress></CircularProgress>
-            </div>
-          )}
-          {!isLoading && (
-            <Button
-              className="button"
-              variant="contained"
-              color="primary"
-              onClick={onClick}
-            >
-              Find Slots
-            </Button>
-          )}
-        </div>
+        <ActionButton
+          onClick={onClick}
+          isLoading={isLoading}
+          title="Book Event"
+        />
       </div>
     </div>
   );
