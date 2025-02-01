@@ -1,39 +1,16 @@
 import axios from "axios";
-import { Slot, SlotDoc } from "../../types";
-import { parseLocalDate } from "../../helpers/date.utils";
+import { Slot, SlotDoc } from "../../types/slot.types";
+import {
+  formatDateToLocalISOString,
+  parseLocalDate,
+} from "../../helpers/date.utils";
 import { CONFIGS } from "../../configs/configs";
-const SLOTS = [
-  {
-    startDate: new Date("2025-01-14T10:00:00"),
-    endDate: new Date("2025-01-14T10:30:00"),
-  },
-  {
-    startDate: new Date("2025-01-14T12:00:00"),
-    endDate: new Date("2025-01-14T12:30:00"),
-  },
-  {
-    startDate: new Date("2025-01-14T16:00:00"),
-    endDate: new Date("2025-01-14T16:30:00"),
-  },
-];
 
 const transformSlots = (slots: SlotDoc[]): Slot[] => {
   return slots.map((slot) => ({
     startDate: parseLocalDate(slot.startDate),
     endDate: parseLocalDate(slot.endDate),
   }));
-};
-
-const formatDateToLocalISOString = (date: Date): string => {
-  const pad = (num: number) => (num < 10 ? "0" : "") + num;
-  const year = date.getFullYear();
-  const month = pad(date.getMonth() + 1);
-  const day = pad(date.getDate());
-  const hours = pad(date.getHours());
-  const minutes = pad(date.getMinutes());
-  const seconds = pad(date.getSeconds());
-
-  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 };
 
 export const fetchSlots = async (
@@ -48,7 +25,7 @@ export const fetchSlots = async (
     return response.data;
   } catch (error) {
     console.error(error);
-    return SLOTS;
+    return [];
   }
 };
 

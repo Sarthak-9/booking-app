@@ -1,17 +1,9 @@
-import { TextField, MenuItem, Button } from "@mui/material";
+import { TextField, MenuItem, Button, CircularProgress } from "@mui/material";
 import "./Slots.css";
-import { Slot } from "../../types";
+import { Slot } from "../../types/slot.types";
 import { getSlots } from "./slotInput.utils";
-
-const TIMEZONES = [
-  "America/Los_Angeles",
-  "America/New_York",
-  "Europe/London",
-  "Europe/Paris",
-  "Asia/Tokyo",
-  "Australia/Sydney",
-  "UTC",
-];
+import { TIMEZONES } from "../../configs/configs";
+import { useState } from "react";
 
 interface SlotInputProps {
   startDate: Date;
@@ -24,10 +16,12 @@ interface SlotInputProps {
 
 const SlotInput = (props: SlotInputProps) => {
   const { startDate, duration, setDuration, timezone, setTimezone } = props;
-
+  const [isLoading, setIsLoading] = useState(false);
   const onClick = async () => {
+    setIsLoading(true);
     const slots: Slot[] = await getSlots(startDate, duration, timezone);
     props.setSlots(slots);
+    setIsLoading(false);
   };
 
   return (
@@ -53,14 +47,21 @@ const SlotInput = (props: SlotInputProps) => {
         ))}
       </TextField>
       <div className="button-container">
-        <Button
-          className="button"
-          variant="contained"
-          color="primary"
-          onClick={onClick}
-        >
-          Find Slots
-        </Button>
+        {isLoading && (
+          <div className="loader">
+            <CircularProgress></CircularProgress>
+          </div>
+        )}
+        {!isLoading && (
+          <Button
+            className="button"
+            variant="contained"
+            color="primary"
+            onClick={onClick}
+          >
+            Find Slots
+          </Button>
+        )}
       </div>
     </div>
   );

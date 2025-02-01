@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toLocalISOString } from "../../helpers/date.utils";
+import { formatDateToLocalISOString } from "../../helpers/date.utils";
 import { CONFIGS } from "../../configs/configs";
 
 const bookSlotRequest = async (
@@ -28,7 +28,7 @@ export const bookSlot = async (
   timezone: string,
   eventData: Record<string, string | number>
 ) => {
-  const parsedStartDate = toLocalISOString(startDate);
-  const parsedEndDate = toLocalISOString(endDate);
+  const parsedStartDate = formatDateToLocalISOString(startDate);
+  const parsedEndDate = formatDateToLocalISOString(endDate);
   await bookSlotRequest(parsedStartDate, parsedEndDate, timezone, eventData);
 };

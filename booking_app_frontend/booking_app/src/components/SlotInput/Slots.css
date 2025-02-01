@@ -7,7 +7,7 @@
 .common-row {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   gap: 2rem;
 }
 

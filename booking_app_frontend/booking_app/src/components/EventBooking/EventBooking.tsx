@@ -5,7 +5,7 @@ import SlotInput from "../SlotInput/SlotInput";
 import SlotContainer from "../Slots/SlotContainer";
 import { SlotDetails } from "../SlotDetails/SlotDetails";
 import EventForm from "../EventForm/EventForm";
-import { Slot } from "../../types";
+import { Slot } from "../../types/slot.types";
 
 const EventBooking = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());

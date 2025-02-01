@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import "./Slots.css";
-import { Slot } from "../../types";
+import { Slot } from "../../types/slot.types";
 
 interface SlotItemProps {
   slot: {

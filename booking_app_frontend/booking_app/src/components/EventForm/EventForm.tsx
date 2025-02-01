@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, CircularProgress } from "@mui/material";
 import "./EventForm.css";
 import { bookSlot } from "./eventForm.utils";
 
@@ -15,6 +15,8 @@ export const EventForm = (props: EventFormProps) => {
   const [email, setEmail] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const validateForm = () => {
     if (!name || !email || !mobile) {
       alert("Please fill all the required fields");
@@ -23,6 +25,7 @@ export const EventForm = (props: EventFormProps) => {
     return true;
   };
   const onClick = async () => {
+    setIsLoading(true);
     if (validateForm()) {
       await bookSlot(startDate, endDate, timezone, {
         name,
@@ -32,6 +35,7 @@ export const EventForm = (props: EventFormProps) => {
       });
       alert("Form submitted successfully");
     }
+    setIsLoading(false);
   };
   return (
     <div className="event-form-container">
@@ -63,14 +67,21 @@ export const EventForm = (props: EventFormProps) => {
           fullWidth
         />
         <div className="button-container">
-          <Button
-            className="button"
-            variant="contained"
-            color="primary"
-            onClick={onClick}
-          >
-            Submit
-          </Button>
+          {isLoading && (
+            <div className="loader">
+              <CircularProgress></CircularProgress>
+            </div>
+          )}
+          {!isLoading && (
+            <Button
+              className="button"
+              variant="contained"
+              color="primary"
+              onClick={onClick}
+            >
+              Find Slots
+            </Button>
+          )}
         </div>
       </div>
     </div>

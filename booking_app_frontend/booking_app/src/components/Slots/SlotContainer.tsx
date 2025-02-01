@@ -1,4 +1,4 @@
-import { Slot } from "../../types";
+import { Slot } from "../../types/slot.types";
 import SlotItem from "./SlotItem";
 import "./Slots.css";
 

@@ -1,0 +1,15 @@
+.user-event-card-container {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.user-event-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 1rem;
+}
