@@ -14,15 +14,16 @@
   width: 80%;
 }
 
-.common-row {
+.event-booking-common-row {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   margin-top: 1.25rem;
   gap: 2rem;
   width: 100%;
 }
 
-.common-column {
+.event-booking-common-column {
   display: flex;
   flex-direction: column;
   justify-content: start;

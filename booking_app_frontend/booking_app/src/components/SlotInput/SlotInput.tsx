@@ -1,5 +1,5 @@
-import { TextField, MenuItem, Button, CircularProgress } from "@mui/material";
-import "./Slots.css";
+import { TextField, MenuItem } from "@mui/material";
+import "./SlotInput.css";
 import { Slot } from "../../types/slot.types";
 import { getSlots } from "./slotInput.utils";
 import { TIMEZONES } from "../../configs/configs";
@@ -26,7 +26,7 @@ const SlotInput = (props: SlotInputProps) => {
   };
 
   return (
-    <div className="common-column">
+    <div className="slot-input-common-column">
       <TextField
         type="number"
         label="Enter duration"

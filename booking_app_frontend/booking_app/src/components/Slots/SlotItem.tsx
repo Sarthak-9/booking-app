@@ -22,7 +22,12 @@ const SlotItem = (props: SlotItemProps) => {
   };
   return (
     <div className="slot-item">
-      <Button variant="outlined" color="primary" onClick={onClick}>
+      <Button
+        className="slot-button"
+        variant="outlined"
+        color="primary"
+        onClick={onClick}
+      >
         {formatTime(startDate)}
       </Button>
     </div>

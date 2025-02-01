@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Button, CircularProgress } from "@mui/material";
+import { TextField } from "@mui/material";
 import "./EventForm.css";
 import { bookSlot } from "./eventForm.utils";
 import { ActionButton } from "../ActionButton/ActionButton";
@@ -39,8 +39,8 @@ export const EventForm = (props: EventFormProps) => {
     setIsLoading(false);
   };
   return (
-    <div className="event-form-container">
-      <div className="common-column">
+    <div className="event-form">
+      <div className="event-form-common-column">
         <TextField
           label="Name"
           value={name}

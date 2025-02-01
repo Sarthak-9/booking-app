@@ -3,7 +3,6 @@ import DatePicker from "../DatePicker/DatePicker";
 import { Event } from "../../types/event.types";
 import "./UserEvents.css";
 import { getEvents } from "./userEvents.utils";
-import { Button, CircularProgress } from "@mui/material";
 import UserEventItems from "./UserEventItems";
 import UserEventsSetTimezone from "./UserEventsSetTimezone";
 import { ActionButton } from "../ActionButton/ActionButton";
@@ -52,7 +51,7 @@ export const UserEvents = () => {
       </div>
       <UserEventItems events={events} />
       <ActionButton
-        onClick={onClick}
+        onClick={handlePageChange}
         isLoading={isRouting}
         title="Event Booking"
       />

@@ -1,5 +1,4 @@
-import React from "react";
-import "./Slots.css";
+import "./SlotDetails.css";
 import SlotDetailItem from "./SlotDetailItem";
 
 interface SlotDetailsProps {

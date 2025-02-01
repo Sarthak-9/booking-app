@@ -1,4 +1,4 @@
-import "./Slots.css";
+import "./SlotDetails.css";
 
 interface SlotDetailItemProps {
   title: string;

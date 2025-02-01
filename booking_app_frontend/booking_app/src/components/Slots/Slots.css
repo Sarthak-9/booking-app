@@ -11,9 +11,14 @@
   gap: 2rem;
 }
 
-.common-column {
+.slots-common-column {
   display: flex;
   flex-direction: column;
   justify-content: start;
   gap: 1rem;
+  width: 30%;
+}
+
+.slot-button {
+  width: 100%;
 }
