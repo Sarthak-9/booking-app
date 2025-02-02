@@ -16,11 +16,12 @@ const transformSlots = (slots: SlotDoc[]): Slot[] => {
 export const fetchSlots = async (
   startDate: string,
   endDate: string,
-  timezone: string
+  timezone: string,
+  duration: number
 ) => {
   try {
     const response = await axios.get(
-      `${CONFIGS.API_URL}/event/free-events?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}`
+      `${CONFIGS.API_URL}/event/free-events?startDate=${startDate}&endDate=${endDate}&timezone=${timezone}&duration=${duration}`
     );
     return response.data;
   } catch (error) {
@@ -38,7 +39,12 @@ export const getSlots = async (
   const endDate = new Date(startDate);
   endDate.setHours(23, 59, 59, 999);
   const preparedEndDate = formatDateToLocalISOString(endDate);
-  const slots = await fetchSlots(prepStartDate, preparedEndDate, timezone);
+  const slots = await fetchSlots(
+    prepStartDate,
+    preparedEndDate,
+    timezone,
+    duration
+  );
   const transformedSlots = transformSlots(slots);
   return transformedSlots;
 };
