@@ -13,5 +13,7 @@ deployment:
   commands:
     - name: install-dependencies
       command: npm install --production=false
+    - name: install-types
+      command: npm install --save-dev @types/express @types/cors # Install TypeScript type definitions for express and cors
     - name: start-application
       command: npm start
