@@ -1,5 +1,5 @@
 export const CONFIGS = {
-  API_URL: "http://localhost:5000",
+  API_URL: "https://booking-app-frontend-5v7w.onrender.com",
 };
 export const TIMEZONES = [
   "America/Los_Angeles",
