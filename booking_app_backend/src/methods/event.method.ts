@@ -202,7 +202,7 @@ export const transformEventsToTimezone = (
 ) => {
   return events.map((event) => {
     const transformedEvent = {
-      startDate: convertUTCToTimezone(event.startDate, timezone), //moment.utc(event.startDate).tz(timezone).toDate(),
+      startDate: convertUTCToTimezone(event.startDate, timezone),
       endDate: convertUTCToTimezone(event.endDate, timezone),
     };
     if ("eventData" in event) {
