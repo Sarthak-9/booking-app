@@ -1,8 +1,17 @@
-schemaVersion:
-  1.0
-  # Example endpoint configuration
+schemaVersion: 1.1
 endpoints:
   - name: my-service-endpoint
     service:
       port: 5000
     type: REST
+deployment:
+  name: my-node-app
+  type: nodejs
+  resources:
+    cpu: "1"
+    memory: "512Mi"
+  commands:
+    - name: install-dependencies
+      command: npm install --production=false
+    - name: start-application
+      command: npm start
