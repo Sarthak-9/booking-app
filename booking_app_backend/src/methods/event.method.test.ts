@@ -25,14 +25,6 @@ import moment from "moment-timezone";
 jest.mock("../helpers/firebase");
 jest.mock("firebase/firestore");
 jest.mock("../helpers/config");
-// jest.mock("moment-timezone", () => {
-//   const moment = jest.requireActual("moment");
-//   return {
-//     ...moment,
-//     tz: jest.fn(),
-//     utc: jest.fn(),
-//   };
-// });
 
 describe("Event Methods", () => {
   beforeEach(() => {
