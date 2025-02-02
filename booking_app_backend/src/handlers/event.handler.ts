@@ -1,83 +1,91 @@
 import { Request } from "express";
 import {
   checkIfSlotAvailable,
+  checkSlotBoundary,
   createEvent,
   filterFreeSlots,
-  generateSlots,
+  findSlotsInUTC,
   getEventsFromDateRange,
   transformEventDoc,
   transformEventsToTimezone,
 } from "../methods/event.method";
 import { BadRequestError, ExistingEventError } from "../helpers/routeExecutor";
+import config from "../helpers/config";
+import {
+  validateBookEventRequest,
+  validateGetRequests,
+} from "../helpers/validators";
 
 export const getEvents = async (req: Request) => {
   const { startDate, endDate, timezone } = req.query;
-  if (!startDate) {
-    throw new BadRequestError("Start Date is required");
-  }
+  validateGetRequests(startDate as string);
+  const parsedTimeZone = (timezone as string) || config.eventConfig.timezone;
   const { eventDocs } = await getEventsFromDateRange(
     startDate as string,
     endDate as string,
-    timezone as string
+    parsedTimeZone
   );
   const events = transformEventDoc(eventDocs);
-  const transformedEvents = transformEventsToTimezone(
-    events,
-    timezone as string
-  );
+  const transformedEvents = transformEventsToTimezone(events, parsedTimeZone);
   return transformedEvents;
 };
 
 export const getFreeEvents = async (req: Request) => {
-  const { startDate, endDate, timezone } = req.query;
-  if (!startDate) {
-    throw new BadRequestError("Start Date is required");
-  }
+  const { startDate, endDate, duration, timezone } = req.query;
+  validateGetRequests(startDate as string);
+  const parsedTimeZone = (timezone as string) || config.eventConfig.timezone;
+  const eventDuration = Number(duration || config.eventConfig.duration);
   const { preparedStartDate, preparedEndDate, eventDocs } =
     await getEventsFromDateRange(
       startDate as string,
       endDate as string,
-      timezone as string
+      parsedTimeZone
     );
-  const slots = generateSlots(preparedStartDate, preparedEndDate);
+  const slotsInUTC = findSlotsInUTC(
+    preparedStartDate,
+    preparedEndDate,
+    eventDuration,
+    parsedTimeZone
+  );
   const events = transformEventDoc(eventDocs);
-  const freeSlots = filterFreeSlots(slots, events);
+  const freeSlots = filterFreeSlots(
+    slotsInUTC,
+    events,
+    preparedStartDate,
+    preparedEndDate
+  );
   const transformedEvents = transformEventsToTimezone(
     freeSlots,
-    timezone as string
+    parsedTimeZone
   );
-
   return transformedEvents;
 };
 
 export const bookEvent = async (req: Request) => {
   const { startDate, endDate, timezone, eventData } = req.body;
-  if (!startDate) {
-    throw new BadRequestError("Start Date is required");
-  }
-  if (!endDate) {
-    throw new BadRequestError("End Date is required");
-  }
+  validateBookEventRequest(startDate as string, endDate as string);
+  const parsedTimeZone = (timezone as string) || config.eventConfig.timezone;
   const { preparedStartDate, preparedEndDate, eventDocs } =
     await getEventsFromDateRange(
       startDate as string,
       endDate as string,
-      timezone as string
+      parsedTimeZone
     );
-  const events = transformEventDoc(eventDocs);
-  const isSlotAvailable = checkIfSlotAvailable(
-    events,
+  const validSlotBoundary = checkSlotBoundary(
     preparedStartDate,
     preparedEndDate
   );
-  if (isSlotAvailable) {
-    const createdEvent = await createEvent(
+  if (validSlotBoundary) {
+    const events = transformEventDoc(eventDocs);
+    const isSlotAvailable = checkIfSlotAvailable(
+      events,
       preparedStartDate,
-      preparedEndDate,
-      eventData
+      preparedEndDate
     );
-    return createdEvent;
-  } else {
-    throw new ExistingEventError("Slot is not available");
+    if (isSlotAvailable) {
+      await createEvent(preparedStartDate, preparedEndDate, eventData);
+      return "Event Created Successfully";
+    }
   }
+  throw new ExistingEventError("Slot is not available");
 };
