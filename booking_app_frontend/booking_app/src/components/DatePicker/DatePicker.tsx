@@ -4,10 +4,11 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 interface DatePickerProps {
   date: Date;
   setDate: (date: Date) => void;
+  minDate: boolean;
 }
 
 const DatePicker = (props: DatePickerProps) => {
-  const { date, setDate } = props;
+  const { date, setDate, minDate } = props;
   const dateToday = new Date();
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -31,7 +32,7 @@ const DatePicker = (props: DatePickerProps) => {
             setDate(newDate);
           }
         }}
-        minDate={dateToday}
+        minDate={minDate ? dateToday : undefined}
       />
     </LocalizationProvider>
   );

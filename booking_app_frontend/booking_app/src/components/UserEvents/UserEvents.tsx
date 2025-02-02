@@ -32,11 +32,15 @@ export const UserEvents = () => {
         <div className="user-event-form">
           <div className="user-event-common-column">
             <h2>Select Start Date</h2>
-            <DatePicker date={startDate} setDate={setStartDate} />
+            <DatePicker
+              date={startDate}
+              setDate={setStartDate}
+              minDate={false}
+            />
           </div>
           <div className="user-event-common-column">
             <h2>Select End Date</h2>
-            <DatePicker date={endDate} setDate={setEndDate} />
+            <DatePicker date={endDate} setDate={setEndDate} minDate={false} />
           </div>
           <div className="set-timezone-container">
             <h2>Set timezone</h2>

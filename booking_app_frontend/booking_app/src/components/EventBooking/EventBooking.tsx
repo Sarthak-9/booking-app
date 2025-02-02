@@ -21,6 +21,7 @@ const EventBooking = () => {
           <DatePickerContainer
             startDate={startDate}
             setStartDate={setStartDate}
+            minDate={true}
           />
           <SlotInputContainer
             startDate={startDate}
